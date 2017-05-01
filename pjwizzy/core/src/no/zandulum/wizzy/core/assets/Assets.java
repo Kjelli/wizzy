@@ -11,7 +11,10 @@ import com.badlogic.gdx.utils.Array;
 
 public class Assets {
 	public static Texture wizzy, hand;
-
+	
+	// GUI
+	public static Texture menuBtns;
+	
 	// Fonts
 	public static BitmapFont font, font2;
 	public static BitmapFont announcerFont;
@@ -19,6 +22,9 @@ public class Assets {
 	public static void load() {
 		wizzy = load("wizzy.png");
 		hand = load("hand.png");
+		
+		//GUI
+		menuBtns = load("menu-btns.png");
 
 		// FreeTypeFontGenerator fontgen = new
 		// FreeTypeFontGenerator(Gdx.files.internal("vonique64.ttf"));

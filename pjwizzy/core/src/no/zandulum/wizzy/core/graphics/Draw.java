@@ -21,7 +21,7 @@ public class Draw {
 		}
 	}
 
-	public static void sprite(SpriteBatch batch, Sprite sprite, float x, float y, float w, float h, float rot) {
+	public static void sprite(Batch batch, Sprite sprite, float x, float y, float w, float h, float rot) {
 
 		sprite(batch, sprite, x, y, w, h, 1.0f, 1.0f, rot, sprite.getColor(), false);
 	}
@@ -43,7 +43,7 @@ public class Draw {
 		}
 	}
 
-	public static void sprite(SpriteBatch batch, Sprite s) {
+	public static void sprite(Batch batch, Sprite s) {
 		sprite(batch, s, s.getX(), s.getY(), s.getWidth(), s.getHeight(), s.getScaleX(), s.getScaleY(), s.getRotation(),
 				s.getColor(), false);
 	}
