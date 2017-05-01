@@ -1,7 +1,6 @@
 package no.zandulum.wizzy.core.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -25,10 +24,9 @@ public abstract class AbstractGameScreen implements Screen {
 	protected final OrthographicCamera hudCamera;
 	protected final Stage stage;
 	protected GameContext gameContext;
-	protected final InputMultiplexer inputMux;
 
 	private final SpriteBatch batch, hudBatch;
-	
+
 	public ShapeRenderer shapes;
 
 	private Texture background;
@@ -47,7 +45,6 @@ public abstract class AbstractGameScreen implements Screen {
 		hudBatch = new SpriteBatch();
 		hudBatch.enableBlending();
 		gameContext = new GameContext(game);
-		inputMux = new InputMultiplexer(stage);
 
 	}
 
@@ -56,8 +53,9 @@ public abstract class AbstractGameScreen implements Screen {
 		update(delta);
 		stage.act(delta);
 
-		Gdx.gl.glClearColor(0.0f, 0.1f, 0.0f, 1.0f);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
+		Gdx.gl.glClearColor(0.0f, 0.5f, 0.0f, 1.0f);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT
+				| (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
@@ -97,7 +95,6 @@ public abstract class AbstractGameScreen implements Screen {
 
 	@Override
 	public void show() {
-		Gdx.input.setInputProcessor(inputMux);
 		onShow();
 	}
 

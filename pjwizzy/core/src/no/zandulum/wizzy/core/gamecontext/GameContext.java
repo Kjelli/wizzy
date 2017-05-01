@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Queue;
@@ -26,6 +28,7 @@ public class GameContext {
 
 	private Stage stage;
 	private PhysicsHandler physics;
+	private InputMultiplexer inputMux;
 	private long ticks = 0;
 	private double elapsedTime = 0;
 
@@ -43,8 +46,16 @@ public class GameContext {
 		newlyDespawned = new Queue<>();
 
 		stage = new Stage();
+		inputMux = new InputMultiplexer(stage);
+
+		Gdx.input.setInputProcessor(inputMux);
+		
 		// TODO Optimize in the future
 		physics = new BruteForcePhysicsHandler();
+	}
+	
+	public void addInputProcessor(InputAdapter adapter){
+		inputMux.addProcessor(adapter);
 	}
 
 	public void update(float delta) {
@@ -53,7 +64,7 @@ public class GameContext {
 		}
 		ticks++;
 		elapsedTime += delta * timeModifier;
-
+		
 		TweenGlobal.update(delta * timeModifier);
 
 		for (int i = 0; i < objects.size(); i++) {

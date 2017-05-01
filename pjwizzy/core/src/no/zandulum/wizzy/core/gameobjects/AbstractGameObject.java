@@ -35,7 +35,7 @@ public abstract class AbstractGameObject implements GameObject {
 		max_acceleration = new Vector2(5000, 5000);
 		bounds = new Polygon(new float[] { 0, 0, width, 0, width, height, 0, height });
 		bounds.setPosition(x, y);
-		bounds.setOrigin(width/2, height/2);
+		bounds.setOrigin(width / 2, height / 2);
 		setX(x);
 		setY(y);
 		setWidth(width);
@@ -61,11 +61,17 @@ public abstract class AbstractGameObject implements GameObject {
 	public void setX(float x) {
 		bounds.setPosition(x, y);
 		this.x = x;
+		if (sprite != null) {
+			this.sprite.setX(x);
+		}
 	}
 
 	public void setY(float y) {
 		bounds.setPosition(x, y);
 		this.y = y;
+		if (sprite != null) {
+			this.sprite.setY(y);
+		}
 	}
 
 	public Vector2 velocity() {
@@ -109,7 +115,7 @@ public abstract class AbstractGameObject implements GameObject {
 		this.width = width / getScale();
 		updateBounds();
 	}
-	
+
 	@Override
 	public final float getHeight() {
 		return height * getScale();
@@ -215,7 +221,7 @@ public abstract class AbstractGameObject implements GameObject {
 
 	@Override
 	public void draw(SpriteBatch batch) {
-		Draw.sprite(batch, this.sprite);
+		Draw.sprite(batch, this);
 	}
 
 	public void setScale(float scale) {

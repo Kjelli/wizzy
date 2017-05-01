@@ -1,16 +1,12 @@
 package no.zandulum.wizzy.core;
 
-import com.badlogic.gdx.graphics.GL30;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import org.java_websocket.WebSocketImpl;
+
+import com.badlogic.gdx.Game;
 
 import no.zandulum.wizzy.core.assets.Assets;
 import no.zandulum.wizzy.core.screens.GameScreen;
 import no.zandulum.wizzy.core.tweens.TweenGlobal;
-
-import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 
 public class WizzyGame extends Game {
 
@@ -19,6 +15,7 @@ public class WizzyGame extends Game {
 		Assets.load();
 		TweenGlobal.init();
 		setScreen(new GameScreen(this));
+		// WebSocketImpl.DEBUG = true;
 	}
 
 }
