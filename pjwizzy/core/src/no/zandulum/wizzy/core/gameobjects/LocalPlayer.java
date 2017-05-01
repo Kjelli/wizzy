@@ -1,7 +1,7 @@
 package no.zandulum.wizzy.core.gameobjects;
 
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputAdapter;
 
 import no.zandulum.wizzy.core.websockets.Client;
 import no.zandulum.wizzy.core.websockets.PacketBuilder;
@@ -69,6 +69,13 @@ public class LocalPlayer extends Player {
 				return true;
 			}
 		});
+	}
+
+	@Override
+	public void onDespawn() {
+		super.onDespawn();
+		getGameContext().despawn(left);
+		getGameContext().despawn(right);
 	}
 
 	private void networkLogic(float delta) {

@@ -10,14 +10,15 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 import com.badlogic.gdx.utils.Array;
 
 public class Assets {
-	public static Texture plain;
+	public static Texture wizzy, hand;
 
 	// Fonts
 	public static BitmapFont font, font2;
 	public static BitmapFont announcerFont;
 
 	public static void load() {
-		plain = load("plain.png");
+		wizzy = load("wizzy.png");
+		hand = load("hand.png");
 
 		// FreeTypeFontGenerator fontgen = new
 		// FreeTypeFontGenerator(Gdx.files.internal("vonique64.ttf"));
