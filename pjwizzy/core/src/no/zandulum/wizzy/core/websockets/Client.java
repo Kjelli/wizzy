@@ -42,7 +42,7 @@ public class Client extends WebSocketClient {
 	private static void init() {
 		URI uri;
 		try {
-			uri = new URI("http://127.0.0.1:54545");
+			uri = new URI("http://192.168.38.105:1337");
 			instance = new Client(uri);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();

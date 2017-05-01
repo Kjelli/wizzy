@@ -14,7 +14,6 @@ import com.badlogic.gdx.utils.Queue;
 import no.zandulum.wizzy.core.gamecontext.physics.BruteForcePhysicsHandler;
 import no.zandulum.wizzy.core.gamecontext.physics.PhysicsHandler;
 import no.zandulum.wizzy.core.gameobjects.GameObject;
-import no.zandulum.wizzy.core.tweens.TweenGlobal;
 
 public class GameContext {
 
@@ -65,7 +64,6 @@ public class GameContext {
 		ticks++;
 		elapsedTime += delta * timeModifier;
 		
-		TweenGlobal.update(delta * timeModifier);
 
 		for (int i = 0; i < objects.size(); i++) {
 			GameObject object = objects.get(i);
