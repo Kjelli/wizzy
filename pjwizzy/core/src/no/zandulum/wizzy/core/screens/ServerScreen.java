@@ -60,7 +60,7 @@ public class ServerScreen extends AbstractGameScreen {
 
 	@Override
 	protected void update(float delta) {
-		logString = "";
+		logString = "Connections: \n";
 		for(Entry<String, String> e : connections.entrySet()){
 			logString += e.getKey() + "\n";
 		}

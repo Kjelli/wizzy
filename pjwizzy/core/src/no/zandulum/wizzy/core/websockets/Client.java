@@ -84,9 +84,10 @@ public class Client extends WebSocketClient {
 			float new_x = Float.parseFloat(data[2]);
 			float new_y = Float.parseFloat(data[3]);
 			int new_dir = Integer.parseInt(data[4]);
+			float new_look_dir = Float.parseFloat(data[5]);
 
 			for (ClientListener cl : listeners) {
-				cl.onMove(moving_name, new_x, new_y, new_dir);
+				cl.onMove(moving_name, new_x, new_y, new_dir, new_look_dir);
 			}
 			break;
 		case Defs.GOODBYE_PACKET:

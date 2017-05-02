@@ -18,13 +18,13 @@
 			<dependency>
 				<groupId>com.badlogicgames.gdx</groupId>
 				<artifactId>gdx</artifactId>
-				<version>1.9.0</version>
+				<version>1.9.6</version>
 			</dependency>
 
 			<dependency>
 				<groupId>com.badlogicgames.gdx</groupId>
 				<artifactId>gdx-platform</artifactId>
-				<version>1.9.0</version>
+				<version>1.9.6</version>
 				<classifier>natives-armeabi</classifier>
 				<scope>provided</scope>
 			</dependency>
@@ -33,20 +33,20 @@
 			<dependency>
 				<groupId>com.badlogicgames.gdx</groupId>
 				<artifactId>gdx-backend-lwjgl</artifactId>
-				<version>1.9.0</version>
+				<version>1.9.6</version>
 			</dependency>
 
 			<dependency>
 				<groupId>com.badlogicgames.gdx</groupId>
 				<artifactId>gdx-platform</artifactId>
-				<version>1.9.0</version>
+				<version>1.9.6</version>
 				<classifier>natives-desktop</classifier>
 			</dependency>
 
 			<dependency>
 				<groupId>com.badlogicgames.gdx</groupId>
 				<artifactId>gdx-platform</artifactId>
-				<version>1.9.0</version>
+				<version>1.9.6</version>
 				<classifier>natives-armeabi-v7a</classifier>
 				<scope>provided</scope>
 			</dependency>
@@ -55,7 +55,7 @@
 			<dependency>
 				<groupId>com.badlogicgames.gdx</groupId>
 				<artifactId>gdx</artifactId>
-				<version>1.9.0</version>
+				<version>1.9.6</version>
 				<classifier>sources</classifier>
 				<scope>provided</scope>
 			</dependency>
@@ -63,7 +63,7 @@
 			<dependency>
 				<groupId>com.badlogicgames.gdx</groupId>
 				<artifactId>gdx-backend-gwt</artifactId>
-				<version>1.9.0</version>
+				<version>1.9.6</version>
 				<classifier>sources</classifier>
 				<scope>provided</scope>
 			</dependency>
@@ -71,7 +71,7 @@
 			<dependency>
 				<groupId>com.badlogicgames.gdx</groupId>
 				<artifactId>gdx-backend-gwt</artifactId>
-				<version>1.9.0</version>
+				<version>1.9.6</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

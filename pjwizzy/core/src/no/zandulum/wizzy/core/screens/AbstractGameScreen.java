@@ -9,21 +9,31 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.Scaling;
-import com.badlogic.gdx.utils.viewport.ScalingViewport;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import no.zandulum.wizzy.core.WizzyGame;
 import no.zandulum.wizzy.core.defs.Defs;
 import no.zandulum.wizzy.core.gamecontext.GameContext;
+import no.zandulum.wizzy.core.screens.mousehandles.MouseHandle;
 
 public abstract class AbstractGameScreen implements Screen {
 
 	protected final WizzyGame game;
 
+	public final static float SCALE = 2f;
+	public final static float INV_SCALE = 1.f / SCALE;
+
+	public final static float VP_WIDTH = Defs.WIDTH * INV_SCALE;
+	public final static float VP_HEIGHT = Defs.HEIGHT * INV_SCALE;
+
 	protected final OrthographicCamera camera;
 	protected final OrthographicCamera hudCamera;
+	protected final Viewport viewport;
 	protected final Stage stage;
 	protected GameContext gameContext;
+
+	protected final MouseHandle mouseHandle;
 
 	private final SpriteBatch batch, hudBatch;
 
@@ -37,14 +47,19 @@ public abstract class AbstractGameScreen implements Screen {
 
 	public AbstractGameScreen(WizzyGame game) {
 		this.game = game;
-		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		hudCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		stage = new Stage(new ScalingViewport(Scaling.stretch, Defs.WIDTH, Defs.HEIGHT, camera));
+		camera = new OrthographicCamera();
+		camera.setToOrtho(true);
+		hudCamera = new OrthographicCamera();
+		viewport = new ExtendViewport(VP_WIDTH, VP_HEIGHT, camera);
+		stage = new Stage(viewport);
+
+		mouseHandle = new MouseHandle(camera, viewport);
+
 		batch = new SpriteBatch();
 		shapes = new ShapeRenderer();
 		hudBatch = new SpriteBatch();
 		hudBatch.enableBlending();
-		gameContext = new GameContext(game);
+		gameContext = new GameContext(game, mouseHandle);
 
 	}
 
@@ -56,12 +71,10 @@ public abstract class AbstractGameScreen implements Screen {
 		Gdx.gl.glClearColor(0.0f, 0.5f, 0.0f, 1.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT
 				| (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
-		camera.update();
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		draw(batch, delta);
 		batch.end();
-		// hudCamera.lookAt(camera.position);
 		hudCamera.zoom = camera.zoom;
 		hudCamera.update();
 		hudBatch.begin();
@@ -86,11 +99,7 @@ public abstract class AbstractGameScreen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		stage.getViewport().update(width, height, true);
-		camera.setToOrtho(false, Defs.WIDTH, Defs.HEIGHT);
-		camera.update();
-		hudCamera.setToOrtho(false, width, height);
-		hudCamera.update();
+		viewport.update(width, height, true);
 	}
 
 	@Override
@@ -179,6 +188,10 @@ public abstract class AbstractGameScreen implements Screen {
 
 	public WizzyGame getGame() {
 		return game;
+	}
+
+	public MouseHandle getMouseHandle() {
+		return mouseHandle;
 	}
 
 	protected SpriteBatch getSpriteBatch() {

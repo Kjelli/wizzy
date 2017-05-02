@@ -30,7 +30,7 @@ public class Server extends org.java_websocket.server.WebSocketServer {
 
 	public static Server getInstance() throws UnknownHostException {
 		if (instance == null) {
-			InetSocketAddress address = new InetSocketAddress("127.0.0.1", 54545);
+			InetSocketAddress address = new InetSocketAddress("192.168.38.105", 1337);
 			instance = new Server(address);
 		}
 		return instance;

@@ -7,7 +7,7 @@ public interface ClientListener {
 
 	void onHello(String name);
 	
-	void onMove(String name, float x, float y, int dir);
+	void onMove(String name, float x, float y, int movementDir, float lookDir);
 
 	void onHelloBack(String[] names);
 

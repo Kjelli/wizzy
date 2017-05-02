@@ -14,6 +14,8 @@ import com.badlogic.gdx.utils.Queue;
 import no.zandulum.wizzy.core.gamecontext.physics.BruteForcePhysicsHandler;
 import no.zandulum.wizzy.core.gamecontext.physics.PhysicsHandler;
 import no.zandulum.wizzy.core.gameobjects.GameObject;
+import no.zandulum.wizzy.core.screens.mousehandles.MouseHandle;
+import no.zandulum.wizzy.core.tweens.TweenGlobal;
 
 public class GameContext {
 
@@ -28,6 +30,7 @@ public class GameContext {
 	private Stage stage;
 	private PhysicsHandler physics;
 	private InputMultiplexer inputMux;
+	private MouseHandle mouseHandle;
 	private long ticks = 0;
 	private double elapsedTime = 0;
 
@@ -35,8 +38,10 @@ public class GameContext {
 
 	private boolean paused = false;
 
-	public GameContext(Game game) {
+	public GameContext(Game game, MouseHandle mouseHandle) {
 		this.game = game;
+
+		this.mouseHandle = mouseHandle;
 
 		objects = new ArrayList<>();
 		add = new Queue<>();
@@ -48,12 +53,12 @@ public class GameContext {
 		inputMux = new InputMultiplexer(stage);
 
 		Gdx.input.setInputProcessor(inputMux);
-		
+
 		// TODO Optimize in the future
 		physics = new BruteForcePhysicsHandler();
 	}
-	
-	public void addInputProcessor(InputAdapter adapter){
+
+	public void addInputProcessor(InputAdapter adapter) {
 		inputMux.addProcessor(adapter);
 	}
 
@@ -64,6 +69,7 @@ public class GameContext {
 		ticks++;
 		elapsedTime += delta * timeModifier;
 		
+		TweenGlobal.update(delta * timeModifier);
 
 		for (int i = 0; i < objects.size(); i++) {
 			GameObject object = objects.get(i);
@@ -185,6 +191,10 @@ public class GameContext {
 
 	public float getTimeModifier() {
 		return timeModifier;
+	}
+
+	public MouseHandle getMouseHandle() {
+		return mouseHandle;
 	}
 
 }

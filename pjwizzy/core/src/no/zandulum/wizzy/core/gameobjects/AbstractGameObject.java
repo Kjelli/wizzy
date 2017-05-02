@@ -1,11 +1,11 @@
 package no.zandulum.wizzy.core.gameobjects;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import no.zandulum.wizzy.core.gamecontext.GameContext;
@@ -286,7 +286,21 @@ public abstract class AbstractGameObject implements GameObject {
 	}
 
 	public void debugDraw(ShapeRenderer renderer) {
+		Color oldColor = renderer.getColor();
 		renderer.polygon(getBounds().getTransformedVertices());
+		renderer.setColor(Color.RED);
+		renderer.line(new Vector2(getX() - 1, getY() - 1), new Vector2(getX() + 1, getY() + 1));
+		renderer.line(new Vector2(getX() - 1, getY() + 1), new Vector2(getX() + 1, getY() - 1));
+
+		renderer.setColor(Color.GREEN);
+		renderer.line(new Vector2(getCenterX() - 1, getCenterY() - 1), new Vector2(getCenterX() + 1, getCenterY() + 1));
+		renderer.line(new Vector2(getCenterX() - 1, getCenterY() + 1), new Vector2(getCenterX() + 1, getCenterY() - 1));
+
+		renderer.setColor(Color.BLUE);
+		renderer.line(new Vector2(getCenterX(), getCenterY()),
+				new Vector2((float) (getCenterX() + 25 * Math.cos(rot)), (float) (getCenterY() + 25 * Math.sin(rot))));
+
+		renderer.setColor(oldColor);
 	}
 
 	/**

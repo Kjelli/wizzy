@@ -2,6 +2,7 @@ package no.zandulum.wizzy.core.screens;
 
 import java.util.HashMap;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -15,6 +16,7 @@ import no.zandulum.wizzy.core.websockets.PacketBuilder;
 public class GameScreen extends AbstractGameScreen {
 	private HashMap<String, Player> players;
 	private ClientListener clientListener;
+	LocalPlayer player;
 
 	public GameScreen(WizzyGame game) {
 		super(game);
@@ -39,7 +41,6 @@ public class GameScreen extends AbstractGameScreen {
 				Player player = new Player(name, 50, 50);
 				players.put(name, player);
 				gameContext.spawn(player);
-				System.out.println("Spawning " + name);
 			}
 
 			@Override
@@ -48,7 +49,6 @@ public class GameScreen extends AbstractGameScreen {
 					Player player = new Player(name, 50, 50);
 					players.put(name, player);
 					gameContext.spawn(player);
-					System.out.println("Spawning " + name);
 				}
 			}
 
@@ -59,11 +59,10 @@ public class GameScreen extends AbstractGameScreen {
 			}
 
 			@Override
-			public void onMove(String name, float x, float y, int dir) {
+			public void onMove(String name, float x, float y, int dir, float lookDir) {
 				if (players.containsKey(name)) {
 					Player p = players.get(name);
-					p.updateFromPacket(x, y, dir);
-					System.out.println("Updating " + name + ": (x: " + p.getX() + ", y: " + p.getY() + ")");
+					p.updateFromPacket(x, y, dir, lookDir);
 				} else {
 					System.out.println("Could not find player " + name);
 				}
@@ -74,12 +73,23 @@ public class GameScreen extends AbstractGameScreen {
 
 	@Override
 	protected void debugDraw(ShapeRenderer renderer) {
-
+		/*
+		 * renderer.begin(); for (GameObject go : gameContext.getObjects()) {
+		 * go.debugDraw(renderer); } renderer.end();
+		 */
 	}
 
 	@Override
 	protected void update(float delta) {
 		gameContext.update(delta);
+		cameraLogic(delta);
+	}
+
+	private void cameraLogic(float delta) {
+		float targetX = player.getCursor().getCenterX() + player.velocity().x / 4;
+		float targetY = player.getCursor().getCenterY() + player.velocity().y / 4;
+		camera.position.x = camera.position.x * 0.95f + targetX * 0.05f;
+		camera.position.y = camera.position.y * 0.95f + targetY * 0.05f;
 	}
 
 	@Override
@@ -95,7 +105,7 @@ public class GameScreen extends AbstractGameScreen {
 
 	@Override
 	protected void onShow() {
-
+		Gdx.input.setCursorCatched(true);
 		players = new HashMap<>();
 
 		Client c = Client.getInstance();
@@ -105,7 +115,8 @@ public class GameScreen extends AbstractGameScreen {
 			e.printStackTrace();
 		}
 		c.send(PacketBuilder.hello(c.getName()));
-		gameContext.spawn(new LocalPlayer(c.getName(), 50, 50));
+		player = new LocalPlayer(c.getName(), 50, 50);
+		gameContext.spawn(player);
 	}
 
 }

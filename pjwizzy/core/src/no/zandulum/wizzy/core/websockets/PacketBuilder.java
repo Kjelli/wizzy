@@ -17,8 +17,8 @@ public class PacketBuilder {
 		return String.format("%s%s%s", Defs.HELLO_BACK_PACKET, Defs.DELIMITER, String.join(Defs.SUB_DELIMITER, names));
 	}
 
-	public static final String move(String name, float x, float y, int dir) {
-		return String.format(Locale.ROOT, "%s%s%s%s%f%s%f%s%d", Defs.MOVE_PACKET, Defs.DELIMITER, name, Defs.DELIMITER,
-				x, Defs.DELIMITER, y, Defs.DELIMITER, dir);
+	public static final String move(String name, float x, float y, int movementDir, float lookDir) {
+		return String.format(Locale.ROOT, "%s%s%s%s%f%s%f%s%d%s%f", Defs.MOVE_PACKET, Defs.DELIMITER, name, Defs.DELIMITER,
+				x, Defs.DELIMITER, y, Defs.DELIMITER, movementDir, Defs.DELIMITER, lookDir);
 	}
 }
