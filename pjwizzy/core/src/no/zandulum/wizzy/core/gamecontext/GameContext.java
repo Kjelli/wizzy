@@ -38,9 +38,9 @@ public class GameContext {
 
 	private boolean paused = false;
 
-	public GameContext(Game game, MouseHandle mouseHandle) {
+	public GameContext(Game game, Stage stage, MouseHandle mouseHandle) {
 		this.game = game;
-
+		this.stage = stage;
 		this.mouseHandle = mouseHandle;
 
 		objects = new ArrayList<>();
@@ -49,7 +49,6 @@ public class GameContext {
 		newlySpawned = new Queue<>();
 		newlyDespawned = new Queue<>();
 
-		stage = new Stage();
 		inputMux = new InputMultiplexer(stage);
 
 		Gdx.input.setInputProcessor(inputMux);
@@ -68,7 +67,7 @@ public class GameContext {
 		}
 		ticks++;
 		elapsedTime += delta * timeModifier;
-		
+
 		TweenGlobal.update(delta * timeModifier);
 
 		for (int i = 0; i < objects.size(); i++) {
