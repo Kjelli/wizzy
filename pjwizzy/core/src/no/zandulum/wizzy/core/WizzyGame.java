@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 
 import no.zandulum.wizzy.core.assets.Assets;
 import no.zandulum.wizzy.core.screens.GameScreen;
+import no.zandulum.wizzy.core.screens.MenuScreen;
 import no.zandulum.wizzy.core.tweens.TweenGlobal;
 
 public class WizzyGame extends Game {
@@ -12,7 +13,7 @@ public class WizzyGame extends Game {
 	public void create() {
 		Assets.load();
 		TweenGlobal.init();
-		setScreen(new GameScreen(this));
+		setScreen(new MenuScreen(this));
 	}
 
 }
