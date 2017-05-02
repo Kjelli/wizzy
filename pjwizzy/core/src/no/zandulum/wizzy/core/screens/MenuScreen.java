@@ -1,14 +1,23 @@
 
 package no.zandulum.wizzy.core.screens;
 
+import java.net.UnknownHostException;
+
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import no.zandulum.wizzy.core.WizzyGame;
 import no.zandulum.wizzy.core.assets.Assets;
 import no.zandulum.wizzy.core.assets.gui.Button;
+import no.zandulum.wizzy.core.websockets.Server;
 
 public class MenuScreen extends AbstractGameScreen {
 
@@ -38,18 +47,27 @@ public class MenuScreen extends AbstractGameScreen {
 		TextureRegion optionsTexture = regions[2][0];
 		TextureRegion exitTexture = regions[3][0];
 
-		joinBtn = new Button(joinTexture, centerX, 80f, BTN_WIDTH, BTN_HEIGHT);
-		hostbtn = new Button(hostTexture, centerX, 80f + BTN_HEIGHT + SPACING, BTN_WIDTH, BTN_HEIGHT);
-		optionsBtn = new Button(optionsTexture, centerX, 80f + 2 * (BTN_HEIGHT + SPACING), BTN_WIDTH, BTN_HEIGHT);
-		exitBtn = new Button(exitTexture, centerX, 80f + 3 * (BTN_HEIGHT + SPACING), BTN_WIDTH, BTN_HEIGHT);
-
-		titleGlyph = new GlyphLayout(Assets.font, "Yer a Wizard");
+		joinBtn = new Button(joinTexture, centerX, 130f, BTN_WIDTH, BTN_HEIGHT);
+		hostbtn = new Button(hostTexture, centerX, 140f + BTN_HEIGHT + SPACING, BTN_WIDTH, BTN_HEIGHT);
+		optionsBtn = new Button(optionsTexture, centerX, 150f + 2 * (BTN_HEIGHT + SPACING), BTN_WIDTH, BTN_HEIGHT);
+		exitBtn = new Button(exitTexture, centerX, 160f + 3 * (BTN_HEIGHT + SPACING), BTN_WIDTH, BTN_HEIGHT);
+		
+		initElements();
+		
+		stage.addActor(joinBtn);
+		stage.addActor(exitBtn);
+		stage.addActor(hostbtn);
+		
+		
+		titleGlyph = new GlyphLayout(Assets.font, "Im a what?");
+		
 	}
 
 	@Override
 	protected void debugDraw(ShapeRenderer renderer) {
-		// TODO Auto-generated method stub
-
+		renderer.begin();
+		renderer.rect(joinBtn.getX(), joinBtn.getY(),joinBtn.getWidth(),joinBtn.getHeight());
+		renderer.end();
 	}
 
 	@Override
@@ -61,10 +79,9 @@ public class MenuScreen extends AbstractGameScreen {
 	@Override
 	protected void draw(SpriteBatch batch, float delta) {
 		Assets.font.draw(batch, titleGlyph, centerX + BTN_WIDTH / 2 - titleGlyph.width / 2, 30f);
-		joinBtn.draw(batch, 1f);
-		hostbtn.draw(batch, 1f);
+		
 		optionsBtn.draw(batch, 1f);
-		exitBtn.draw(batch, 1f);
+	
 	}
 
 	@Override
@@ -76,7 +93,46 @@ public class MenuScreen extends AbstractGameScreen {
 	@Override
 	protected void onShow() {
 		// TODO Auto-generated method stub
-
+	}
+	
+	protected void initElements(){
+		joinBtn.addListener(new ClickListener() {
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				// TODO Auto-generated method stub
+				return super.touchDown(event, x, y, pointer, button);
+			}
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				super.touchUp(event, x, y, pointer, button);
+				System.out.println("Join game");
+			}
+			
+		});
+		
+		hostbtn.addListener(new ClickListener(){
+			@Override
+			public void touchUp(InputEvent arg0, float arg1, float arg2, int arg3, int arg4) {
+				super.touchUp(arg0, arg1, arg2, arg3, arg4);
+				try {
+					Server.getInstance().start();
+				} catch (UnknownHostException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					System.out.println(e);
+				}
+				game.setScreen(new Lobby(game));
+			}
+		});
+		
+		exitBtn.addListener(new ClickListener(){
+			@Override
+			public void touchUp(InputEvent arg0, float arg1, float arg2, int arg3, int arg4) {
+				// TODO Auto-generated method stub
+				super.touchUp(arg0, arg1, arg2, arg3, arg4);
+				System.exit(0);
+			}
+		});
 	}
 
 }
