@@ -61,8 +61,8 @@ public abstract class AbstractGameScreen implements Screen {
 		shapes = new ShapeRenderer();
 		hudBatch = new SpriteBatch();
 		hudBatch.enableBlending();
-		gameContext = new GameContext(game, mouseHandle);
-		
+		gameContext = new GameContext(game, stage, mouseHandle);
+
 		bgcolor = new Color(Color.BLACK);
 
 	}
