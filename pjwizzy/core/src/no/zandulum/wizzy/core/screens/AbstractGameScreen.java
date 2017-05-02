@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import no.zandulum.wizzy.core.WizzyGame;
@@ -50,7 +52,7 @@ public abstract class AbstractGameScreen implements Screen {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(true);
 		hudCamera = new OrthographicCamera();
-		viewport = new ExtendViewport(VP_WIDTH, VP_HEIGHT, camera);
+		viewport = new FitViewport(VP_WIDTH, VP_HEIGHT, camera);
 		stage = new Stage(viewport);
 
 		mouseHandle = new MouseHandle(camera, viewport);
@@ -60,6 +62,8 @@ public abstract class AbstractGameScreen implements Screen {
 		hudBatch = new SpriteBatch();
 		hudBatch.enableBlending();
 		gameContext = new GameContext(game, mouseHandle);
+		
+		bgcolor = new Color(Color.BLACK);
 
 	}
 
@@ -68,7 +72,7 @@ public abstract class AbstractGameScreen implements Screen {
 		update(delta);
 		stage.act(delta);
 
-		Gdx.gl.glClearColor(0.0f, 0.5f, 0.0f, 1.0f);
+		Gdx.gl.glClearColor(bgcolor.r, bgcolor.g, bgcolor.b, bgcolor.a);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT
 				| (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 		batch.setProjectionMatrix(camera.combined);

@@ -29,7 +29,7 @@ public class FireballProjectile extends AbstractProjectile {
 		textures = new Texture[] { Assets.fire, Assets.fire2, Assets.fire3 };
 
 		setSprite(new Sprite(textures[0]));
-		fireColor = new Color(Color.ORANGE);
+		fireColor = new Color(Color.RED);
 		sprite.setColor(fireColor);
 		TweenGlobal.start(Tween.to(fireColor, ColorAccessor.TYPE_RGBA, TTL / 4)
 				.target(fireColor.r, 1.0f, fireColor.b, fireColor.a).repeatYoyo(4, 0));

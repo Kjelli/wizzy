@@ -11,9 +11,9 @@ public class wizzyDesktop {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.useHDPI = true;
 		config.foregroundFPS = 120;
-		config.fullscreen = true;
-		config.width = (int) 1680;
-		config.height = (int) 1050;
+		// config.fullscreen = true;
+		config.width = (int) Defs.WIDTH;
+		config.height = (int) Defs.HEIGHT;
 		new LwjglApplication(new WizzyGame(), config);
 	}
 }

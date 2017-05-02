@@ -11,6 +11,9 @@ public class Assets {
 	public static Texture cursor;
 	public static Texture fire, fire2, fire3;
 
+	// GUI
+	public static Texture menuBtns;
+
 	// Fonts
 	public static BitmapFont font, font2;
 	public static BitmapFont announcerFont;
@@ -22,6 +25,10 @@ public class Assets {
 		fire = load("fire.png");
 		fire2 = load("fire2.png");
 		fire3 = load("fire3.png");
+
+		// GUI
+		menuBtns = load("menu-btns.png");
+
 		// FreeTypeFontGenerator fontgen = new
 		// FreeTypeFontGenerator(Gdx.files.internal("vonique64.ttf"));
 		// FreeTypeFontParameter font20params = new FreeTypeFontParameter();
