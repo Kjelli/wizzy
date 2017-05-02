@@ -14,6 +14,7 @@ import no.zandulum.wizzy.core.graphics.Draw;
 import no.zandulum.wizzy.core.spells.Fireball;
 import no.zandulum.wizzy.core.spells.Firebreath;
 import no.zandulum.wizzy.core.spells.AbstractSpell;
+import no.zandulum.wizzy.core.spells.AbstractSpell.CastType;
 import no.zandulum.wizzy.core.tweens.TweenGlobal;
 import no.zandulum.wizzy.core.tweens.TweenableFloat;
 import no.zandulum.wizzy.core.tweens.accessors.FloatAccessor;
@@ -23,11 +24,17 @@ public class Hand extends AbstractGameObject {
 	public static final int WIDTH = 8, HEIGHT = 8, LEFT = -1, RIGHT = 1, DIAMETER = Player.WIDTH * 2 / 3;
 	public static final float DELAY = 0.5f;
 
+	public static enum HandState {
+		IDLE, READYING, CASTING, FINISHING
+	}
+
 	Player player;
 	int orientation;
 	TweenableFloat frontOffset;
 	TweenableFloat sideOffset;
-	boolean isHandCasting = false;
+
+	private boolean isHandCasting = false;
+	private HandState state = HandState.IDLE;
 
 	public AbstractSpell spell;
 
@@ -62,6 +69,27 @@ public class Hand extends AbstractGameObject {
 
 	private void spellLogic(float delta) {
 		spell.update(delta);
+
+		// Try casting
+		if (state == HandState.IDLE && isHandCasting && spell.getCooldown().isReady()) {
+			doCastAnimation(true);
+		}
+
+		if (state == HandState.CASTING) {
+			if (spell.getCastType() == CastType.SINGLE) {
+				spell.cast(true);
+				doCastAnimation(false);
+			}
+			
+			if (spell.getCastType() == CastType.HOLD && isHandCasting) {
+				spell.cast(true);
+			}
+
+			if (spell.getCastType() == CastType.HOLD && !isHandCasting) {
+				spell.cast(false);
+				doCastAnimation(false);
+			}
+		}
 	}
 
 	private void followPlayer(Player player, float delta) {
@@ -76,34 +104,22 @@ public class Hand extends AbstractGameObject {
 		setRotation(player.getRotation());
 	}
 
-	public void cast(boolean cast) {
-		switch (spell.getCastType()) {
-		case CHARGE:
-			break;
-		case HOLD:
-			if (cast) {
+	public void doCastAnimation(boolean cast) {
+		if (cast) {
+			if (state == HandState.IDLE && spell.getCooldown().isReady()) {
 				TweenGlobal.start(holdCastStart());
-				isHandCasting = true;
-			} else if (!cast) {
+			}
+		} else if (!cast) {
+			if (state == HandState.CASTING) {
 				TweenGlobal.start(holdCastStop());
-				isHandCasting = false;
-				spell.cast(false);
 			}
-			break;
-		case SINGLE:
-			if (cast && !isHandCasting) {
-				isHandCasting = true;
-				TweenGlobal.start(singleCast());
-			}
-			break;
-		default:
-			break;
 		}
 	}
 
 	// Tweens
 
 	private Timeline holdCastStart() {
+		state = HandState.READYING;
 		Timeline holdCastStart = Timeline.createParallel()
 				.push(Tween.to(sideOffset, FloatAccessor.TYPE_VALUE, 0.1f).target(-20f).ease(TweenEquations.easeInExpo))
 				.push(Tween.to(frontOffset, FloatAccessor.TYPE_VALUE, 0.1f).target(16f)
@@ -111,9 +127,7 @@ public class Hand extends AbstractGameObject {
 							@Override
 							public void onEvent(int arg0, BaseTween<?> arg1) {
 								if (arg0 == TweenCallback.COMPLETE) {
-									if (isHandCasting) {
-										spell.cast(true);
-									}
+									state = HandState.CASTING;
 								}
 							}
 						}));
@@ -121,13 +135,14 @@ public class Hand extends AbstractGameObject {
 	}
 
 	private Timeline holdCastStop() {
+		state = HandState.FINISHING;
 		Timeline holdCastStop = Timeline.createParallel()
 				.push(Tween.to(sideOffset, FloatAccessor.TYPE_VALUE, 0.2f).target(0).ease(TweenEquations.easeOutExpo))
 				.push(Tween.to(frontOffset, FloatAccessor.TYPE_VALUE, 0.2f).target(0).setCallback(new TweenCallback() {
 					@Override
 					public void onEvent(int arg0, BaseTween<?> arg1) {
 						if (arg0 == TweenCallback.COMPLETE) {
-							isHandCasting = false;
+							state = HandState.IDLE;
 						}
 					}
 				}));
@@ -135,32 +150,8 @@ public class Hand extends AbstractGameObject {
 		return holdCastStop;
 	}
 
-	private Timeline singleCast() {
-		Timeline singleCast = Timeline.createParallel()
-				.push(Tween.to(sideOffset, FloatAccessor.TYPE_VALUE, 0.1f).target(-20f).ease(TweenEquations.easeInExpo))
-				.push(Tween.to(frontOffset, FloatAccessor.TYPE_VALUE, 0.2f).target(16f)
-						.setCallback(new TweenCallback() {
-							@Override
-							public void onEvent(int arg0, BaseTween<?> arg1) {
-								spell.cast(true);
-								if (arg0 == TweenCallback.COMPLETE) {
-									TweenGlobal.start(Timeline.createParallel()
-											.push(Tween.to(sideOffset, FloatAccessor.TYPE_VALUE, 0.2f).target(0f)
-													.ease(TweenEquations.easeOutBack))
-											.push(Tween.to(frontOffset, FloatAccessor.TYPE_VALUE, 0.2f).target(0f)
-													.setCallback(new TweenCallback() {
-														@Override
-														public void onEvent(int arg0, BaseTween<?> arg1) {
-															if (arg0 == TweenCallback.COMPLETE) {
-																spell.cast(false);
-																isHandCasting = false;
-															}
-														}
-													})));
-								}
-							}
-						}));
-		return singleCast;
+	public void requestCast(boolean cast) {
+		isHandCasting = cast;
 	}
 
 }

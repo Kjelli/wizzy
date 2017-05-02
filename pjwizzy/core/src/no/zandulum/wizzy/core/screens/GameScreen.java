@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import no.zandulum.wizzy.core.WizzyGame;
+import no.zandulum.wizzy.core.defs.Options;
+import no.zandulum.wizzy.core.gameobjects.GameObject;
 import no.zandulum.wizzy.core.gameobjects.LocalPlayer;
 import no.zandulum.wizzy.core.gameobjects.Player;
 import no.zandulum.wizzy.core.websockets.Client;
@@ -73,10 +75,14 @@ public class GameScreen extends AbstractGameScreen {
 
 	@Override
 	protected void debugDraw(ShapeRenderer renderer) {
-		/*
-		 * renderer.begin(); for (GameObject go : gameContext.getObjects()) {
-		 * go.debugDraw(renderer); } renderer.end();
-		 */
+		if (Options.DEBUG) {
+			renderer.begin();
+			for (GameObject go : gameContext.getObjects()) {
+				go.debugDraw(renderer);
+			}
+			renderer.end();
+		}
+
 	}
 
 	@Override

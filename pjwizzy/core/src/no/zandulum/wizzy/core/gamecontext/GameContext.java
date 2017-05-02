@@ -5,12 +5,14 @@ import java.util.List;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Queue;
 
+import no.zandulum.wizzy.core.defs.Options;
 import no.zandulum.wizzy.core.gamecontext.physics.BruteForcePhysicsHandler;
 import no.zandulum.wizzy.core.gamecontext.physics.PhysicsHandler;
 import no.zandulum.wizzy.core.gameobjects.GameObject;
@@ -50,6 +52,16 @@ public class GameContext {
 		newlyDespawned = new Queue<>();
 
 		inputMux = new InputMultiplexer(stage);
+		inputMux.addProcessor(new InputAdapter() {
+			@Override
+			public boolean keyDown(int keycode) {
+				if (keycode == Keys.F4) {
+					Options.DEBUG = !Options.DEBUG;
+					return true;
+				}
+				return false;
+			}
+		});
 
 		Gdx.input.setInputProcessor(inputMux);
 

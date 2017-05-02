@@ -24,6 +24,7 @@ public abstract class AbstractSpell {
 		this.cooldown = cooldown;
 	}
 
+	public abstract void onCharge(float delta);
 	public abstract void onCast();
 
 	public CastType getCastType() {
@@ -42,6 +43,9 @@ public abstract class AbstractSpell {
 		if (isCasting()) {
 			switch (castType) {
 			case CHARGE:
+				if (cooldown.isReady()) {
+					onCharge(delta);
+				}
 				break;
 			case HOLD:
 				if (cooldown.isReady()) {
@@ -53,6 +57,7 @@ public abstract class AbstractSpell {
 				if (cooldown.isReady()) {
 					cooldown.start();
 					onCast();
+					cast(false);
 				}
 				break;
 			default:
@@ -76,6 +81,10 @@ public abstract class AbstractSpell {
 
 	public void setCaster(Player caster) {
 		this.caster = caster;
+	}
+
+	public Cooldown getCooldown() {
+		return cooldown;
 	}
 
 }

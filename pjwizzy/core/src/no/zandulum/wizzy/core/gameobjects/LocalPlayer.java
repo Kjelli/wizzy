@@ -44,10 +44,10 @@ public class LocalPlayer extends Player {
 			public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
 				if (button == Input.Buttons.LEFT) {
-					right.cast(true);
+					right.requestCast(true);
 					return true;
 				} else if (button == Input.Buttons.RIGHT) {
-					left.cast(true);
+					left.requestCast(true);
 					return true;
 				} else {
 					return false;
@@ -59,10 +59,10 @@ public class LocalPlayer extends Player {
 			public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 
 				if (button == Input.Buttons.LEFT) {
-					right.cast(false);
+					right.requestCast(false);
 					return true;
 				} else if (button == Input.Buttons.RIGHT) {
-					left.cast(false);
+					left.requestCast(false);
 					return true;
 				} else {
 					return false;

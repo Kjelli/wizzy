@@ -36,6 +36,13 @@ public class Server extends org.java_websocket.server.WebSocketServer {
 		return instance;
 	}
 
+	public static Server newInstance(InetSocketAddress address) throws UnknownHostException {
+		if (instance == null) {
+			instance = new Server(address);
+		}
+		return instance;
+	}
+
 	public void addListener(ServerListener listener) {
 		listeners.add(listener);
 	}
@@ -103,10 +110,10 @@ public class Server extends org.java_websocket.server.WebSocketServer {
 			for (int i = 0; i < names.length; i++) {
 				names[i] = it.next();
 			}
-			
-			log("Connected players ("+connectedNames.size()+"): " + String.join(", ", connectedNames.values()));
+
+			log("Connected players (" + connectedNames.size() + "): " + String.join(", ", connectedNames.values()));
 			log("Sending helloback on behalf of: " + String.join(", ", names));
-			
+
 			conn.send(PacketBuilder.helloBack(names));
 			break;
 		}
