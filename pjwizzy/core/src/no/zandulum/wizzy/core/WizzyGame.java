@@ -13,7 +13,7 @@ public class WizzyGame extends Game {
 	public void create() {
 		Assets.load();
 		TweenGlobal.init();
-		setScreen(new GameScreen(this));
+		setScreen(new MenuScreen(this));
 	}
 
 }

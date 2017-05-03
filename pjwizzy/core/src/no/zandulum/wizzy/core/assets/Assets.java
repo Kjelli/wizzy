@@ -3,8 +3,10 @@ package no.zandulum.wizzy.core.assets;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class Assets {
 	public static Texture wizzy, hand;
@@ -13,10 +15,15 @@ public class Assets {
 
 	// GUI
 	public static Texture menuBtns;
+	public static Texture border_large;
 
 	// Fonts
 	public static BitmapFont font, font2;
 	public static BitmapFont announcerFont;
+	
+	//Skin
+	
+	public static Skin skin_sdx;
 
 	public static void load() {
 		wizzy = load("wizzy.png");
@@ -28,6 +35,13 @@ public class Assets {
 
 		// GUI
 		menuBtns = load("menu-btns.png");
+		border_large = load("ui/card_long_border.png");
+		
+		// Skin
+		TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("default-skin/uiskin.atlas"));
+		skin_sdx = new Skin(Gdx.files.internal("default-skin/uiskin.json"));
+		skin_sdx.addRegions(atlas);
+		
 
 		// FreeTypeFontGenerator fontgen = new
 		// FreeTypeFontGenerator(Gdx.files.internal("vonique64.ttf"));
