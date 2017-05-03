@@ -21,7 +21,7 @@ public abstract class AbstractGameScreen implements Screen {
 
 	protected final WizzyGame game;
 
-	public final static float SCALE = 2f;
+	public final static float SCALE = 1f;
 	public final static float INV_SCALE = 1.f / SCALE;
 
 	public final static float VP_WIDTH = Defs.WIDTH * INV_SCALE;
@@ -48,7 +48,7 @@ public abstract class AbstractGameScreen implements Screen {
 	public AbstractGameScreen(WizzyGame game) {
 		this.game = game;
 		camera = new OrthographicCamera();
-		camera.setToOrtho(true);
+		camera.setToOrtho(false);
 		hudCamera = new OrthographicCamera();
 		viewport = new FitViewport(VP_WIDTH, VP_HEIGHT, camera);
 		stage = new Stage(viewport);

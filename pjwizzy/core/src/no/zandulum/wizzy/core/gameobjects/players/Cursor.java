@@ -24,7 +24,7 @@ public class Cursor extends AbstractGameObject {
 	@Override
 	public void update(float delta) {
 		float targetX = getCenterX() + Gdx.input.getDeltaX() * SENSITIVITY;
-		float targetY = getCenterY() + Gdx.input.getDeltaY() * SENSITIVITY;
+		float targetY = getCenterY() - Gdx.input.getDeltaY() * SENSITIVITY;
 		// float distance = (float) Math.hypot(targetX - player.getCenterX(), targetY - player.getCenterY());
 		float angle = player.angleTo(targetX, targetY);
 		targetX = (float) ((player.getCenterX()) + Math.cos(angle) * RADIUS);

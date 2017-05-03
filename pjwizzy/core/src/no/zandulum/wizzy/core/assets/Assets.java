@@ -56,8 +56,7 @@ public class Assets {
 		FreeTypeFontGenerator font2gen = new FreeTypeFontGenerator(Gdx.files.internal("vonique64.ttf"));
 		FreeTypeFontParameter font2params = new FreeTypeFontParameter();
 		font2params.minFilter = Texture.TextureFilter.Linear;
-		font2params.size = 50;
-		font2params.flip = true;
+		font2params.size = 150;
 		font = font2gen.generateFont(font2params);
 		font.getData().setScale(0.2f, 0.2f);
 	}

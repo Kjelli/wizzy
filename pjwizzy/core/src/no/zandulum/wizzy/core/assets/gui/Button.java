@@ -16,7 +16,6 @@ public class Button extends Actor {
 
 	public Button(TextureRegion image, float x, float y, float width, float height) {
 		this.image = image;
-		image.flip(false, true);
 		this.setBounds(x, y, width, height);
 	}
 

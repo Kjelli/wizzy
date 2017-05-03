@@ -53,9 +53,9 @@ public class Player extends AbstractGameObject {
 		}
 
 		if (movement.up) {
-			acceleration.y = -ACCELERATION;
-		} else if (movement.down) {
 			acceleration.y = ACCELERATION;
+		} else if (movement.down) {
+			acceleration.y = -ACCELERATION;
 		} else {
 			acceleration.y = 0;
 		}

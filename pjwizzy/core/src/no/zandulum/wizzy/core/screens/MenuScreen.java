@@ -41,10 +41,10 @@ public class MenuScreen extends AbstractGameScreen {
 		TextureRegion optionsTexture = regions[2][0];
 		TextureRegion exitTexture = regions[3][0];
 
-		joinBtn = new Button(joinTexture, centerX, 130f, Defs.BTN_WIDTH, Defs.BTN_HEIGHT);
-		hostbtn = new Button(hostTexture, centerX, 140f + Defs.BTN_HEIGHT + Defs.SPACING, Defs.BTN_WIDTH, Defs.BTN_HEIGHT);
-		optionsBtn = new Button(optionsTexture, centerX, 150f + 2 * (Defs.BTN_HEIGHT + Defs.SPACING), Defs.BTN_WIDTH, Defs.BTN_HEIGHT);
-		exitBtn = new Button(exitTexture, centerX, 160f + 3 * (Defs.BTN_HEIGHT + Defs.SPACING), Defs.BTN_WIDTH, Defs.BTN_HEIGHT);
+		joinBtn = new Button(joinTexture, centerX, 320f, Defs.BTN_WIDTH, Defs.BTN_HEIGHT);
+		hostbtn = new Button(hostTexture, centerX, 300f - Defs.BTN_HEIGHT - Defs.SPACING, Defs.BTN_WIDTH, Defs.BTN_HEIGHT);
+		optionsBtn = new Button(optionsTexture, centerX, 280f - 2 * (Defs.BTN_HEIGHT + Defs.SPACING), Defs.BTN_WIDTH, Defs.BTN_HEIGHT);
+		exitBtn = new Button(exitTexture, centerX, 260f - 3 * (Defs.BTN_HEIGHT + Defs.SPACING), Defs.BTN_WIDTH, Defs.BTN_HEIGHT);
 
 		initElements();
 
@@ -73,8 +73,7 @@ public class MenuScreen extends AbstractGameScreen {
 
 	@Override
 	protected void draw(SpriteBatch batch, float delta) {
-		Assets.font.draw(batch, titleGlyph, centerX + Defs.BTN_WIDTH / 2 - titleGlyph.width / 2, 30f);
-
+		Assets.font.draw(batch, titleGlyph, centerX + Defs.BTN_WIDTH / 2 - titleGlyph.width / 2, 450f);
 		optionsBtn.draw(batch, 1f);
 
 	}
