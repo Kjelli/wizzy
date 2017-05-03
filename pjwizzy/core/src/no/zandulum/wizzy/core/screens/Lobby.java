@@ -1,5 +1,12 @@
 package no.zandulum.wizzy.core.screens;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+import org.java_websocket.WebSocket;
+
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -10,36 +17,43 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import no.zandulum.wizzy.core.WizzyGame;
 import no.zandulum.wizzy.core.assets.Assets;
 import no.zandulum.wizzy.core.assets.gui.Button;
+import no.zandulum.wizzy.core.defs.Defs;
+import no.zandulum.wizzy.core.websockets.Server;
+import no.zandulum.wizzy.core.websockets.ServerListener;
 
 public class Lobby extends AbstractGameScreen{
 	
-	public static final int BTN_TEXTURE_WIDTH = 128;
-	public static final int BTN_TEXTURE_HEIGHT = 32;
-	
-	public static final float UNSCALED_SPACING = 5;
-	public static final float BTN_SCALE = 0.7f;
-	
-	public static final float BTN_WIDTH = BTN_TEXTURE_WIDTH * BTN_SCALE;
-	public static final float BTN_HEIGHT = BTN_TEXTURE_HEIGHT * BTN_SCALE;
-	public static final float SPACING = UNSCALED_SPACING * BTN_SCALE;
-	
 	private GlyphLayout titleGlyph;
+	private GlyphLayout ipv4;
+	private String hostAddress;
+	
 	private Button backBtn, startGameBtn;
+	
 	
 	float centerX;
 	
 	public Lobby(WizzyGame game) {
 		super(game);
 		
-		centerX = camera.viewportWidth / 2 - BTN_WIDTH / 2;
+		centerX = camera.viewportWidth / 2 - Defs.BTN_WIDTH / 2;
 		
 		titleGlyph = new GlyphLayout(Assets.font, "Game Lobby");
 		
-		TextureRegion[][] regions = TextureRegion.split(Assets.menuBtns, BTN_TEXTURE_WIDTH, BTN_TEXTURE_HEIGHT);
+		try {
+			hostAddress = InetAddress.getLocalHost().getHostAddress();
+			ipv4 = new GlyphLayout(Assets.font, hostAddress);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+			System.out.println("Could not find address");
+		}
+		
+		
+		TextureRegion[][] regions = TextureRegion.split(Assets.menuBtns, Defs.BTN_TEXTURE_WIDTH, Defs.BTN_TEXTURE_HEIGHT);
 		
 		float offset = 120f;
-		backBtn = new Button(regions[4][0], centerX-offset, 250f, BTN_WIDTH, BTN_HEIGHT);
-		startGameBtn = new Button(regions[5][0], centerX+offset, 250f, BTN_WIDTH, BTN_HEIGHT);
+		backBtn = new Button(regions[4][0], centerX-offset, 250f, Defs.BTN_WIDTH, Defs.BTN_HEIGHT);
+		startGameBtn = new Button(regions[5][0], centerX+offset, 250f, Defs.BTN_WIDTH, Defs.BTN_HEIGHT);
+		
 		
 		stage.addActor(backBtn);
 		stage.addActor(startGameBtn);
@@ -61,9 +75,10 @@ public class Lobby extends AbstractGameScreen{
 
 	@Override
 	protected void draw(SpriteBatch batch, float delta) {
-		Assets.font.draw(batch, titleGlyph, centerX + BTN_WIDTH / 2 - titleGlyph.width / 2, 30f);
+		Assets.font.draw(batch, titleGlyph, centerX + Defs.BTN_WIDTH / 2 - titleGlyph.width / 2, 30f);
+		Assets.font.draw(batch, ipv4, viewport.getWorldWidth()-ipv4.width, 10f);
 		
-		
+		batch.draw(Assets.border_large, 30f, 100f,viewport.getWorldWidth()-60f,130f);
 	}
 
 	@Override
@@ -74,8 +89,37 @@ public class Lobby extends AbstractGameScreen{
 
 	@Override
 	protected void onShow() {
-		// TODO Auto-generated method stub
-		
+		try {
+			Server.getInstance().addListener(new ServerListener() {
+				
+				@Override
+				public void onOpen(WebSocket conn) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void onMessage(WebSocket conn, String message) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void onHello(WebSocket conn, String name) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void onClose(WebSocket conn, int code, String reason, boolean remote) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	protected void initElements(){
@@ -83,6 +127,12 @@ public class Lobby extends AbstractGameScreen{
 			@Override
 			public void touchUp(InputEvent arg0, float arg1, float arg2, int arg3, int arg4) {
 				super.touchUp(arg0, arg1, arg2, arg3, arg4);
+				try {
+					Server.getInstance().stop();
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				} 
 				game.setScreen(new MenuScreen(game));
 			}
 		});
