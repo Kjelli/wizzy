@@ -1,4 +1,4 @@
-package no.zandulum.wizzy.core.gameobjects;
+package no.zandulum.wizzy.core.gameobjects.players;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -10,8 +10,10 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenEquations;
 import no.zandulum.wizzy.core.assets.Assets;
+import no.zandulum.wizzy.core.gameobjects.AbstractGameObject;
 import no.zandulum.wizzy.core.graphics.Draw;
 import no.zandulum.wizzy.core.spells.Fireball;
+import no.zandulum.wizzy.core.spells.Firebomb;
 import no.zandulum.wizzy.core.spells.Firebreath;
 import no.zandulum.wizzy.core.spells.AbstractSpell;
 import no.zandulum.wizzy.core.spells.AbstractSpell.CastType;
@@ -49,7 +51,7 @@ public class Hand extends AbstractGameObject {
 
 		// TODO choose what spell
 		if (orientation == RIGHT) {
-			spell = new Fireball(player, this);
+			spell = new Firebomb(player, this);
 		} else if (orientation == LEFT) {
 			spell = new Firebreath(player, this);
 		}
@@ -80,7 +82,17 @@ public class Hand extends AbstractGameObject {
 				spell.cast(true);
 				doCastAnimation(false);
 			}
-			
+
+			if (spell.getCastType() == CastType.CHARGE && isHandCasting) {
+				spell.cast(true);
+				doCastAnimation(true);
+			}
+
+			if (spell.getCastType() == CastType.CHARGE && !isHandCasting) {
+				spell.cast(false);
+				doCastAnimation(false);
+			}
+
 			if (spell.getCastType() == CastType.HOLD && isHandCasting) {
 				spell.cast(true);
 			}

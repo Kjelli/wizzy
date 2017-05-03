@@ -1,7 +1,7 @@
 package no.zandulum.wizzy.core.spells;
 
-import no.zandulum.wizzy.core.gameobjects.Hand;
-import no.zandulum.wizzy.core.gameobjects.Player;
+import no.zandulum.wizzy.core.gameobjects.players.Hand;
+import no.zandulum.wizzy.core.gameobjects.players.Player;
 import no.zandulum.wizzy.core.utils.Cooldown;
 
 public abstract class AbstractSpell {
@@ -64,8 +64,23 @@ public abstract class AbstractSpell {
 				break;
 
 			}
+		}else if(!isCasting()){
+			switch (castType) {
+			case CHARGE:
+				resetCharge();
+				break;
+			case HOLD:
+				break;
+			case SINGLE:
+				break;
+			default:
+				break;
+			
+			}
 		}
 	}
+
+	protected abstract void resetCharge();
 
 	public void cast(boolean casting) {
 		this.casting = casting;
@@ -85,6 +100,10 @@ public abstract class AbstractSpell {
 
 	public Cooldown getCooldown() {
 		return cooldown;
+	}
+
+	public Hand getCastingHand() {
+		return castingHand;
 	}
 
 }

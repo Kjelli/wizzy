@@ -1,8 +1,9 @@
-package no.zandulum.wizzy.core.gameobjects;
+package no.zandulum.wizzy.core.gameobjects.players;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 import no.zandulum.wizzy.core.assets.Assets;
+import no.zandulum.wizzy.core.gameobjects.AbstractGameObject;
 
 public class Player extends AbstractGameObject {
 	public static final int WIDTH = 32, HEIGHT = 32;
@@ -14,7 +15,7 @@ public class Player extends AbstractGameObject {
 
 	Hand left;
 	Hand right;
-
+	
 	public Player(String name, float x, float y) {
 		super(x, y, WIDTH, HEIGHT);
 		this.name = name;
@@ -22,6 +23,7 @@ public class Player extends AbstractGameObject {
 		sprite.setOrigin(WIDTH / 2, HEIGHT / 2);
 		movement = new MovementDirection();
 		setMaxSpeed(MAX_SPEED);
+		this.bounds = new CircularHitbox(x, y, WIDTH, HEIGHT).poly;
 	}
 
 	@Override

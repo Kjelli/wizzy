@@ -1,4 +1,4 @@
-package no.zandulum.wizzy.core.gameobjects;
+package no.zandulum.wizzy.core.gameobjects.players;
 
 public class MovementDirection {
 	boolean left, right, up, down;

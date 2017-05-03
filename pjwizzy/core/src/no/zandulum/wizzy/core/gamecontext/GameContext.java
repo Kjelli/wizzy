@@ -58,6 +58,10 @@ public class GameContext {
 				if (keycode == Keys.F4) {
 					Options.DEBUG = !Options.DEBUG;
 					return true;
+				}else if (keycode == Keys.F5) {
+					Options.SLOWMO = !Options.SLOWMO;
+						timeModifier = Options.SLOWMO ? 0.25f : 1.0f;
+					return true;
 				}
 				return false;
 			}

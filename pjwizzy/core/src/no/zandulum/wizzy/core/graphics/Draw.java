@@ -16,8 +16,8 @@ public class Draw {
 			System.err.println("Object has no sprite: " + go);
 			return;
 		} else {
-			sprite(batch, go.getSprite(), go.getX(), go.getY(), go.getWidth(), go.getHeight(), go.getScale(),
-					go.getScale(), go.getRotation(), go.getSprite().getColor(), false);
+			sprite(batch, go.getSprite(), go.getX(), go.getY(), go.getWidth(), go.getHeight(), go.getSprite().getScaleX(),
+					go.getSprite().getScaleY(), go.getRotation(), go.getSprite().getColor(), false);
 		}
 	}
 

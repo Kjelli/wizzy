@@ -1,10 +1,11 @@
-package no.zandulum.wizzy.core.gameobjects;
+package no.zandulum.wizzy.core.gameobjects.players;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 import no.zandulum.wizzy.core.assets.Assets;
+import no.zandulum.wizzy.core.gameobjects.AbstractGameObject;
 
 public class Cursor extends AbstractGameObject {
 
@@ -34,7 +35,7 @@ public class Cursor extends AbstractGameObject {
 		setX(targetX - WIDTH / 2);
 		setY(targetY - HEIGHT / 2);
 
-		setRotation(player.rot);
+		setRotation(player.getRotation());
 		
 		getGameContext().bringToFront(this);
 		

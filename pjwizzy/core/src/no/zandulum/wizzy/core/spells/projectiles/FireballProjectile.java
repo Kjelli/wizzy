@@ -27,7 +27,6 @@ public class FireballProjectile extends AbstractProjectile {
 		velocity().y = spell.getCaster().velocity().y + (float) (Math.sin(rot) * SPEED);
 
 		textures = new Texture[] { Assets.fire, Assets.fire2, Assets.fire3 };
-
 		setSprite(new Sprite(textures[0]));
 		fireColor = new Color(Color.RED);
 		sprite.setColor(fireColor);

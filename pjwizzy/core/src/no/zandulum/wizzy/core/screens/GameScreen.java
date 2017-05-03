@@ -9,8 +9,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import no.zandulum.wizzy.core.WizzyGame;
 import no.zandulum.wizzy.core.defs.Options;
 import no.zandulum.wizzy.core.gameobjects.GameObject;
-import no.zandulum.wizzy.core.gameobjects.LocalPlayer;
-import no.zandulum.wizzy.core.gameobjects.Player;
+import no.zandulum.wizzy.core.gameobjects.players.LocalPlayer;
+import no.zandulum.wizzy.core.gameobjects.players.Player;
 import no.zandulum.wizzy.core.websockets.Client;
 import no.zandulum.wizzy.core.websockets.ClientListener;
 import no.zandulum.wizzy.core.websockets.PacketBuilder;
@@ -96,6 +96,7 @@ public class GameScreen extends AbstractGameScreen {
 		float targetY = player.getCursor().getCenterY() + player.velocity().y / 4;
 		camera.position.x = camera.position.x * 0.95f + targetX * 0.05f;
 		camera.position.y = camera.position.y * 0.95f + targetY * 0.05f;
+		camera.zoom = camera.zoom * 0.95f + player.targetZoom * 0.05f;
 	}
 
 	@Override

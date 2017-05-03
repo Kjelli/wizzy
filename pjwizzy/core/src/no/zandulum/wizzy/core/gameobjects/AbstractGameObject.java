@@ -226,6 +226,10 @@ public abstract class AbstractGameObject implements GameObject {
 
 	public void setScale(float scale) {
 		this.scale = scale;
+		this.getBounds().scale(scale - this.getBounds().getScaleX());
+		if(sprite != null){
+			sprite.setScale(scale);
+		}
 	}
 
 	@Override

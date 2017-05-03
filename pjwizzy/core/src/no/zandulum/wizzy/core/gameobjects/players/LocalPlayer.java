@@ -1,7 +1,8 @@
-package no.zandulum.wizzy.core.gameobjects;
+package no.zandulum.wizzy.core.gameobjects.players;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.InputAdapter;
 
 import no.zandulum.wizzy.core.websockets.Client;
@@ -13,6 +14,9 @@ public class LocalPlayer extends Player {
 	int updateRate = 2;
 	double nextUpdate = updateRate;
 	Cursor cursor;
+
+	public float targetZoom = 1.0f;
+	public float zoomStep = 0.2f;
 
 	public LocalPlayer(String name, float x, float y) {
 		super(name, x, y);
@@ -53,6 +57,12 @@ public class LocalPlayer extends Player {
 					return false;
 				}
 
+			}
+
+			@Override
+			public boolean scrolled(int amount) {
+				targetZoom = Math.max(Math.min(targetZoom + amount * zoomStep, 1.75f), 0.5f);
+				return super.scrolled(amount);
 			}
 
 			@Override

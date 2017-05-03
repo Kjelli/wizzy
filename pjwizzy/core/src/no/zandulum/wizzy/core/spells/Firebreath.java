@@ -1,7 +1,7 @@
 package no.zandulum.wizzy.core.spells;
 
-import no.zandulum.wizzy.core.gameobjects.Hand;
-import no.zandulum.wizzy.core.gameobjects.Player;
+import no.zandulum.wizzy.core.gameobjects.players.Hand;
+import no.zandulum.wizzy.core.gameobjects.players.Player;
 import no.zandulum.wizzy.core.spells.projectiles.FirebreathProjectile;
 import no.zandulum.wizzy.core.utils.Cooldown;
 
@@ -30,6 +30,11 @@ public class Firebreath extends AbstractSpell {
 
 	@Override
 	public void onCharge(float delta) {
+		// Not charge spell
+	}
+
+	@Override
+	protected void resetCharge() {
 		// Not charge spell
 	}
 
